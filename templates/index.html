@@ -1,57 +1,232 @@
 {% extends "base.html" %}
 
-{% block title %}Beranda - LINTANG CHICKEN{% endblock %}
+{% block title %}Dashboard - LINTANG CHICKEN{% endblock %}
 
 {% block content %}
-<div class="header">
-    <h1>Selamat Datang di LINTANG CHICKEN</h1>
-    <p>Sistem Management Stok Barang Professional</p>
-</div>
-
 <div class="dashboard">
-    <div class="stats-grid">
-        <div class="stat-card">
-            <h3>Total Barang</h3>
-            <p class="stat-number">{{ items|length }}</p>
-        </div>
-        <div class="stat-card">
-            <h3>Stok Tersedia</h3>
-            <p class="stat-number">{{ items|sum(attribute='stock') }}</p>
-        </div>
-        <div class="stat-card">
-            <h3>Kategori</h3>
-            <p class="stat-number">{{ items|map(attribute='category')|unique|list|length }}</p>
+    <!-- Welcome Section -->
+    <div class="welcome-section mb-4">
+        <h1 class="text-3xl font-bold">Selamat Datang, {{ session.username }}! 🐓</h1>
+        <p class="text-gray mt-1">Dashboard Sistem Manajemen Peternakan Ayam</p>
+        <div class="alert alert-success mt-3">
+            <i class="fas fa-info-circle"></i> 5 kandang membutuhkan perhatian hari ini.
         </div>
     </div>
 
-    <div class="quick-actions">
-        <h2>Quick Actions</h2>
-        <div class="action-buttons">
-            <a href="{{ url_for('tambah_barang') }}" class="btn btn-primary">Tambah Barang Baru</a>
-            <a href="{{ url_for('daftar_barang') }}" class="btn btn-secondary">Lihat Semua Barang</a>
-        </div>
-    </div>
-
-    <div class="recent-items">
-        <h2>Barang Terbaru</h2>
-        {% if items %}
-        <div class="items-grid">
-            {% for item in items[-3:] %}
-            <div class="item-card">
-                <h3>{{ item.name }}</h3>
-                <p class="item-category">{{ item.category }}</p>
-                <p class="item-stock">Stok: {{ item.stock }}</p>
-                <p class="item-price">Rp {{ "{:,}".format(item.price) }}</p>
-                <a href="{{ url_for('edit_barang', item_id=item.id) }}" class="btn btn-edit">Edit</a>
+    <!-- Stats Cards -->
+    <div class="stats-grid mb-5">
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-warehouse"></i>
             </div>
-            {% endfor %}
+            <h3>Total Kandang</h3>
+            <span class="stat-number">12</span>
+            <p class="text-sm mt-2"><i class="fas fa-arrow-up text-success"></i> 2 kandang baru</p>
         </div>
-        {% else %}
-        <div class="no-data">
-            <p>Belum ada barang yang terdaftar.</p>
-            <a href="{{ url_for('tambah_barang') }}" class="btn btn-primary">Tambah Barang Pertama</a>
+        
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-kiwi-bird"></i>
+            </div>
+            <h3>Total Ayam</h3>
+            <span class="stat-number">1,254</span>
+            <p class="text-sm mt-2"><i class="fas fa-arrow-up text-success"></i> 5% dari bulan lalu</p>
         </div>
-        {% endif %}
+        
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-egg"></i>
+            </div>
+            <h3>Produksi Telur</h3>
+            <span class="stat-number">856</span>
+            <p class="text-sm mt-2"><i class="fas fa-arrow-up text-success"></i> 120 telur hari ini</p>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-money-bill-wave"></i>
+            </div>
+            <h3>Pendapatan Bulan Ini</h3>
+            <span class="stat-number">Rp 8.5 Jt</span>
+            <p class="text-sm mt-2"><i class="fas fa-arrow-up text-success"></i> 15% dari bulan lalu</p>
+        </div>
+    </div>
+
+    <!-- Charts and Quick Stats -->
+    <div class="dashboard-grid mb-5">
+        <div class="chart-container">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Perkembangan Stok Ayam</h3>
+                    <select class="filter-select">
+                        <option>30 Hari Terakhir</option>
+                        <option>7 Hari Terakhir</option>
+                        <option>Bulan Ini</option>
+                    </select>
+                </div>
+                <canvas id="stockChart" height="250"></canvas>
+            </div>
+        </div>
+        
+        <div class="quick-stats">
+            <div class="card">
+                <h3>Status Kandang</h3>
+                <div class="status-list">
+                    <div class="status-item">
+                        <div class="status-info">
+                            <h4>Kandang A</h4>
+                            <p>125 Ayam</p>
+                        </div>
+                        <span class="badge badge-success">Sehat</span>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-info">
+                            <h4>Kandang B</h4>
+                            <p>98 Ayam</p>
+                        </div>
+                        <span class="badge badge-warning">Perlu Vaksin</span>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-info">
+                            <h4>Kandang C</h4>
+                            <p>150 Ayam</p>
+                        </div>
+                        <span class="badge badge-danger">Isolasi</span>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-info">
+                            <h4>Kandang D</h4>
+                            <p>110 Ayam</p>
+                        </div>
+                        <span class="badge badge-success">Sehat</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Transactions -->
+    <div class="card mb-5">
+        <div class="card-header">
+            <h3>Transaksi Terbaru</h3>
+            <a href="#" class="btn btn-primary btn-sm">Lihat Semua</a>
+        </div>
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Tanggal</th>
+                        <th>Jenis</th>
+                        <th>Kandang</th>
+                        <th>Jumlah</th>
+                        <th>Status</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>10 Mar 2024</td>
+                        <td>Penjualan Ayam</td>
+                        <td>Kandang A</td>
+                        <td>50 Ekor</td>
+                        <td><span class="badge badge-success">Selesai</span></td>
+                        <td>
+                            <button class="btn btn-edit btn-sm"><i class="fas fa-eye"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>9 Mar 2024</td>
+                        <td>Pembelian Pakan</td>
+                        <td>Semua</td>
+                        <td>200 Kg</td>
+                        <td><span class="badge badge-success">Selesai</span></td>
+                        <td>
+                            <button class="btn btn-edit btn-sm"><i class="fas fa-eye"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>8 Mar 2024</td>
+                        <td>Vaksinasi</td>
+                        <td>Kandang B</td>
+                        <td>98 Ekor</td>
+                        <td><span class="badge badge-warning">Proses</span></td>
+                        <td>
+                            <button class="btn btn-edit btn-sm"><i class="fas fa-edit"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>7 Mar 2024</td>
+                        <td>Penjualan Telur</td>
+                        <td>Kandang C</td>
+                        <td>120 Butir</td>
+                        <td><span class="badge badge-success">Selesai</span></td>
+                        <td>
+                            <button class="btn btn-edit btn-sm"><i class="fas fa-eye"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+        <h2 class="mb-3">Aksi Cepat</h2>
+        <div class="action-buttons">
+            <a href="/barang/tambah" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah Barang</a>
+            <a href="/barang" class="btn btn-success"><i class="fas fa-box"></i> Lihat Stok</a>
+            <a href="/transaksi/masuk" class="btn btn-warning"><i class="fas fa-arrow-down"></i> Stok Masuk</a>
+            <a href="/transaksi/keluar" class="btn btn-info"><i class="fas fa-arrow-up"></i> Stok Keluar</a>
+        </div>
     </div>
 </div>
+
+<script>
+    // Chart.js Implementation
+    const ctx = document.getElementById('stockChart').getContext('2d');
+    const stockChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['1 Mar', '5 Mar', '10 Mar', '15 Mar', '20 Mar', '25 Mar', '30 Mar'],
+            datasets: [{
+                label: 'Jumlah Ayam',
+                data: [1000, 1100, 1200, 1150, 1250, 1300, 1254],
+                borderColor: '#e53935',
+                backgroundColor: 'rgba(229, 57, 53, 0.1)',
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4
+            }, {
+                label: 'Produksi Telur',
+                data: [700, 750, 800, 780, 820, 850, 856],
+                borderColor: '#4caf50',
+                backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: false,
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.05)'
+                    }
+                },
+                x: {
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.05)'
+                    }
+                }
+            }
+        }
+    });
+</script>
 {% endblock %}

@@ -5,41 +5,188 @@
 {% block content %}
 <div class="form-container">
     <div class="form-header">
-        <h1>Edit Barang</h1>
-        <a href="{{ url_for('daftar_barang') }}" class="btn btn-secondary">Kembali</a>
+        <h1>Edit Barang: {{ item.name }}</h1>
+        <a href="{{ url_for('daftar_barang') }}" class="btn btn-secondary">
+            ← Kembali
+        </a>
     </div>
 
     <form method="POST" class="item-form">
-        <div class="form-group">
-            <label for="name">Nama Barang:</label>
-            <input type="text" id="name" name="name" value="{{ item.name }}" required>
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="kode_barang">
+                    Kode Barang
+                    <span class="text-danger">*</span>
+                </label>
+                <input 
+                    type="text" 
+                    id="kode_barang" 
+                    name="kode_barang" 
+                    value="{{ item.kode_barang }}" 
+                    required
+                    readonly
+                    style="background-color: #f8f9fa;"
+                >
+                <small class="text-sm text-gray">Kode barang tidak dapat diubah</small>
+            </div>
+
+            <div class="form-group">
+                <label for="name">
+                    Nama Barang
+                    <span class="text-danger">*</span>
+                </label>
+                <input 
+                    type="text" 
+                    id="name" 
+                    name="name" 
+                    value="{{ item.name }}" 
+                    required
+                >
+            </div>
+        </div>
+
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="kategori">
+                    Kategori
+                    <span class="text-danger">*</span>
+                </label>
+                <select id="kategori" name="kategori" required>
+                    <option value="Ayam Potong" {% if item.kategori == 'Ayam Potong' %}selected{% endif %}>Ayam Potong</option>
+                    <option value="Ayam Utuh" {% if item.kategori == 'Ayam Utuh' %}selected{% endif %}>Ayam Utuh</option>
+                    <option value="Daging Olahan" {% if item.kategori == 'Daging Olahan' %}selected{% endif %}>Daging Olahan</option>
+                    <option value="Bumbu" {% if item.kategori == 'Bumbu' %}selected{% endif %}>Bumbu</option>
+                    <option value="Telur" {% if item.kategori == 'Telur' %}selected{% endif %}>Telur</option>
+                    <option value="Lainnya" {% if item.kategori == 'Lainnya' %}selected{% endif %}>Lainnya</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="satuan">
+                    Satuan
+                    <span class="text-danger">*</span>
+                </label>
+                <select id="satuan" name="satuan" required>
+                    <option value="kg" {% if item.satuan == 'kg' %}selected{% endif %}>Kilogram (kg)</option>
+                    <option value="ekor" {% if item.satuan == 'ekor' %}selected{% endif %}>Ekor</option>
+                    <option value="pcs" {% if item.satuan == 'pcs' %}selected{% endif %}>Pieces (pcs)</option>
+                    <option value="pack" {% if item.satuan == 'pack' %}selected{% endif %}>Pack</option>
+                    <option value="liter" {% if item.satuan == 'liter' %}selected{% endif %}>Liter</option>
+                    <option value="gram" {% if item.satuan == 'gram' %}selected{% endif %}>Gram</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="stock">
+                    Stok
+                    <span class="text-danger">*</span>
+                </label>
+                <input 
+                    type="number" 
+                    id="stock" 
+                    name="stock" 
+                    value="{{ item.stock }}" 
+                    min="0" 
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="min_stock">
+                    Stok Minimum
+                    <span class="text-danger">*</span>
+                </label>
+                <input 
+                    type="number" 
+                    id="min_stock" 
+                    name="min_stock" 
+                    value="{{ item.min_stock }}" 
+                    min="1" 
+                    required
+                >
+                <small class="text-sm text-gray">Akan muncul peringatan jika stok di bawah ini</small>
+            </div>
         </div>
 
         <div class="form-group">
-            <label for="category">Kategori:</label>
-            <select id="category" name="category" required>
-                <option value="Ayam Potong" {% if item.category == 'Ayam Potong' %}selected{% endif %}>Ayam Potong</option>
-                <option value="Ayam Utuh" {% if item.category == 'Ayam Utuh' %}selected{% endif %}>Ayam Utuh</option>
-                <option value="Daging Olahan" {% if item.category == 'Daging Olahan' %}selected{% endif %}>Daging Olahan</option>
-                <option value="Bumbu" {% if item.category == 'Bumbu' %}selected{% endif %}>Bumbu</option>
-                <option value="Lainnya" {% if item.category == 'Lainnya' %}selected{% endif %}>Lainnya</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="stock">Stok:</label>
-            <input type="number" id="stock" name="stock" value="{{ item.stock }}" min="0" required>
-        </div>
-
-        <div class="form-group">
-            <label for="price">Harga (Rp):</label>
-            <input type="number" id="price" name="price" value="{{ item.price }}" min="0" required>
+            <label for="price">
+                Harga (Rp)
+                <span class="text-danger">*</span>
+            </label>
+            <div class="input-group">
+                <span class="input-prefix">Rp</span>
+                <input 
+                    type="text" 
+                    id="price" 
+                    name="price" 
+                    value="{{ item.harga_formatted }}" 
+                    required
+                    class="price-input"
+                    oninput="validatePrice(this)"
+                >
+            </div>
+            <!-- Display format harga -->
+            <div id="price-display" class="price-display">
+                <small>Format: <span id="price-formatted">Rp {{ item.harga_formatted }}</span></small>
+            </div>
         </div>
 
         <div class="form-actions">
-            <button type="submit" class="btn btn-primary">Update Barang</button>
-            <a href="{{ url_for('daftar_barang') }}" class="btn btn-secondary">Batal</a>
+            <button type="submit" class="btn btn-primary">
+                <span>Update Barang</span>
+                <span class="ml-2">✓</span>
+            </button>
+            <a href="{{ url_for('daftar_barang') }}" class="btn btn-secondary">
+                Batal
+            </a>
         </div>
     </form>
 </div>
+
+<style>
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-prefix {
+    position: absolute;
+    left: 1rem;
+    color: var(--gray-color);
+    font-weight: 600;
+}
+
+.input-group input {
+    padding-left: 3.5rem !important;
+}
+
+.price-display {
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    background: #f8f9fa;
+    border-radius: 4px;
+    border-left: 3px solid var(--primary-color);
+}
+
+#price-formatted {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
 {% endblock %}

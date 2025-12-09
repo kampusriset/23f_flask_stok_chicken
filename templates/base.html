@@ -3,60 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}LINTANG CHICKEN - Sistem Stok Barang{% endblock %}</title>
+    <title>{% block title %}LINTANG CHICKEN{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+    <!-- Background Animation -->
     <div class="chicken-background">
         <div class="chicken">🐔</div>
         <div class="chicken">🐓</div>
-        <div class="chicken">🐔</div>
-        <div class="chicken">🐓</div>
-        <div class="chicken">🐔</div>
-        <div class="chicken">🐓</div>
-        
+        <div class="chicken">🍗</div>
+        <div class="chicken">🥚</div>
         <div class="chicken-egg">🥚</div>
         <div class="chicken-egg">🥚</div>
-        <div class="chicken-egg">🥚</div>
-        
-        <div class="feather">💭</div>
-        <div class="feather">💭</div>
-        <div class="feather">💭</div>
-        <div class="feather">💭</div>
-        <div class="feather">💭</div>
+        <div class="feather">🪶</div>
+        <div class="feather">🪶</div>
+        <div class="feather">🪶</div>
     </div>
-    
+
+    <!-- Navbar -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
                 <h2>LINTANG CHICKEN</h2>
             </div>
             <ul class="nav-menu">
-                <li class="nav-item">
-                    <a href="{{ url_for('dashboard') }}" class="nav-link">Beranda</a>
+                {% if session.logged_in %}
+                <li><a href="/dashboard" class="nav-link active"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="/barang" class="nav-link"><i class="fas fa-box"></i> Daftar Barang</a></li>
+                <li><a href="/barang/tambah" class="nav-link"><i class="fas fa-plus"></i> Tambah Barang</a></li>
+                <li class="user-dropdown">
+                    <button class="nav-user">
+                        <i class="fas fa-user-circle"></i> {{ session.username }}
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a href="/profile" class="dropdown-item"><i class="fas fa-user"></i> Profil</a>
+                        <a href="/logout" class="dropdown-item logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
                 </li>
-                <li class="nav-item">
-                    <a href="{{ url_for('daftar_barang') }}" class="nav-link">Daftar Barang</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ url_for('tambah_barang') }}" class="nav-link">Tambah Barang</a>
-                </li>
-                {% if session.user %}
-                <li class="nav-item user-info">
-                    <span class="nav-user">Halo, {{ session.user.name }}</span>
-                    <a href="{{ url_for('logout') }}" class="nav-link logout-btn">Logout</a>
-                </li>
+                {% else %}
+                <li><a href="/login" class="nav-link">Login</a></li>
                 {% endif %}
             </ul>
         </div>
     </nav>
 
-    <div class="container">
+    <!-- Main Content -->
+    <main class="container">
         <!-- Flash Messages -->
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
                     <div class="alert alert-{{ category }}">
+                        {% if category == 'success' %}
+                            <i class="fas fa-check-circle"></i>
+                        {% elif category == 'error' %}
+                            <i class="fas fa-exclamation-circle"></i>
+                        {% endif %}
                         {{ message }}
                     </div>
                 {% endfor %}
@@ -64,15 +69,40 @@
         {% endwith %}
 
         {% block content %}{% endblock %}
-    </div>
+    </main>
 
+    <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2024 LINTANG CHICKEN - Sistem Manajemen Stok Barang</p>
-            {% if session.user %}
-            <p>Login sebagai: {{ session.user.name }} ({{ session.user.role }})</p>
-            {% endif %}
+            <div>
+                <p><strong>LINTANG CHICKEN</strong></p>
+                <p>© 2024 Sistem Manajemen Peternakan Ayam</p>
+            </div>
+            <div>
+                <p>Versi 2.0.1 | Status: <span class="badge badge-success">Online</span></p>
+                <p>Update terakhir: {{ now.strftime('%d %B %Y') if now else '10 Maret 2024' }}</p>
+            </div>
         </div>
     </footer>
+
+    <script>
+        // Toggle Dropdown
+        document.addEventListener('DOMContentLoaded', function() {
+            const userDropdown = document.querySelector('.nav-user');
+            if (userDropdown) {
+                userDropdown.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    document.querySelector('.dropdown-menu').classList.toggle('show');
+                });
+
+                // Close dropdown when clicking outside
+                document.addEventListener('click', function() {
+                    document.querySelector('.dropdown-menu').classList.remove('show');
+                });
+            }
+        });
+    </script>
+
+    {% block scripts %}{% endblock %}
 </body>
 </html>

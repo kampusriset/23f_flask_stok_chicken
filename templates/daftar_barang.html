@@ -3,49 +3,68 @@
 {% block title %}Daftar Barang - LINTANG CHICKEN{% endblock %}
 
 {% block content %}
-<div class="page-header">
-    <h1>Daftar Stok Barang</h1>
-    <a href="{{ url_for('tambah_barang') }}" class="btn btn-primary">Tambah Barang Baru</a>
+<div style="max-width: 1200px; margin: 0 auto;">
+    <!-- Header -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <div>
+            <h1 style="color: #333;">Daftar Barang</h1>
+            <p style="color: #666;">Total: {{ items|length }} barang</p>
+        </div>
+        <a href="/barang/tambah" class="btn" style="padding: 0.75rem 1.5rem; font-size: 1rem;">
+            + Tambah Barang
+        </a>
+    </div>
+    
+    {% if items %}
+    <div style="overflow-x: auto; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr style="background: #f8f9fa;">
+                    <th style="padding: 1rem; text-align: left; border-bottom: 2px solid #e53935;">Kode</th>
+                    <th style="padding: 1rem; text-align: left; border-bottom: 2px solid #e53935;">Nama Barang</th>
+                    <th style="padding: 1rem; text-align: left; border-bottom: 2px solid #e53935;">Kategori</th>
+                    <th style="padding: 1rem; text-align: left; border-bottom: 2px solid #e53935;">Stok</th>
+                    <th style="padding: 1rem; text-align: left; border-bottom: 2px solid #e53935;">Harga</th>
+                    <th style="padding: 1rem; text-align: left; border-bottom: 2px solid #e53935;">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr style="border-bottom: 1px solid #eee;">
+                    <td style="padding: 1rem; font-weight: bold;">{{ item.kode }}</td>
+                    <td style="padding: 1rem;">{{ item.nama }}</td>
+                    <td style="padding: 1rem;">{{ item.kategori }}</td>
+                    <td style="padding: 1rem;">
+                        <!-- PERBAIKAN: Pisahkan logika warna stok dengan if-else terpisah -->
+                        {% if item.stok < 10 %}
+                            <span style="display: inline-block; padding: 0.25rem 0.75rem; background: #f8d7da; border-radius: 20px; color: #721c24;">
+                        {% elif item.stok < 20 %}
+                            <span style="display: inline-block; padding: 0.25rem 0.75rem; background: #fff3cd; border-radius: 20px; color: #856404;">
+                        {% else %}
+                            <span style="display: inline-block; padding: 0.25rem 0.75rem; background: #d4edda; border-radius: 20px; color: #155724;">
+                        {% endif %}
+                            {{ item.stok }} {{ item.satuan }}
+                        </span>
+                    </td>
+                    <td style="padding: 1rem; font-weight: bold;">Rp {{ "{:,.0f}".format(item.harga) }}</td>
+                    <td style="padding: 1rem;">
+                        <a href="/barang/{{ item.id }}/edit" style="padding: 0.5rem 1rem; background: #2196F3; color: white; text-decoration: none; border-radius: 4px; margin-right: 0.5rem;">✏️ Edit</a>
+                        <a href="/barang/{{ item.id }}/hapus" style="padding: 0.5rem 1rem; background: #f44336; color: white; text-decoration: none; border-radius: 4px;" onclick="return confirm('Yakin hapus {{ item.nama }}?')">🗑️ Hapus</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div style="text-align: center; padding: 4rem; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+        <p style="color: #666; margin-bottom: 1.5rem;">Belum ada barang yang terdaftar</p>
+        <a href="/barang/tambah" class="btn" style="padding: 0.75rem 1.5rem;">+ Tambah Barang Pertama</a>
+    </div>
+    {% endif %}
+    
+    <div style="margin-top: 2rem;">
+        <a href="/dashboard" style="color: #667eea; text-decoration: none;">← Kembali ke Dashboard</a>
+    </div>
 </div>
-
-{% if items %}
-<div class="table-container">
-    <table class="data-table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nama Barang</th>
-                <th>Kategori</th>
-                <th>Stok</th>
-                <th>Harga</th>
-                <th>Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in items %}
-            <tr>
-                <td>{{ item.id }}</td>
-                <td>{{ item.name }}</td>
-                <td>{{ item.category }}</td>
-                <td>
-                    <span class="stock-badge {% if item.stock < 10 %}stock-low{% elif item.stock < 20 %}stock-medium{% else %}stock-high{% endif %}">
-                        {{ item.stock }}
-                    </span>
-                </td>
-                <td>Rp {{ "{:,}".format(item.price) }}</td>
-                <td class="actions">
-                    <a href="{{ url_for('edit_barang', item_id=item.id) }}" class="btn btn-edit">Edit</a>
-                    <a href="{{ url_for('hapus_barang', item_id=item.id) }}" class="btn btn-delete" onclick="return confirm('Hapus barang ini?')">Hapus</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-{% else %}
-<div class="no-data">
-    <p>Belum ada barang yang terdaftar.</p>
-    <a href="{{ url_for('tambah_barang') }}" class="btn btn-primary">Tambah Barang Pertama</a>
-</div>
-{% endif %}
 {% endblock %}

@@ -1,46 +1,99 @@
-{% extends "base.html" %}
-
-{% block title %}Tambah Barang - LINTANG CHICKEN{% endblock %}
-
-{% block content %}
-<div class="form-container">
-    <div class="form-header">
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tambah Barang - LINTANG CHICKEN</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #f5f5f5; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { color: #333; margin-bottom: 20px; border-bottom: 2px solid #4CAF50; padding-bottom: 10px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
+        input, select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 16px; }
+        input:focus, select:focus { outline: none; border-color: #4CAF50; }
+        .btn { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; text-decoration: none; display: inline-block; }
+        .btn-primary { background: #4CAF50; color: white; }
+        .btn-primary:hover { background: #45a049; }
+        .btn-secondary { background: #6c757d; color: white; margin-left: 10px; }
+        .btn-secondary:hover { background: #5a6268; }
+        .alert { padding: 10px; margin-bottom: 20px; border-radius: 5px; }
+        .alert-success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .alert-error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .form-actions { margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; }
+    </style>
+</head>
+<body>
+    <div class="container">
         <h1>Tambah Barang Baru</h1>
-        <a href="{{ url_for('daftar_barang') }}" class="btn btn-secondary">Kembali</a>
+        
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <form method="POST" action="/barang/tambah">
+            <div class="form-group">
+                <label for="kode">Kode Barang *</label>
+                <input type="text" id="kode" name="kode" required placeholder="AYM001">
+            </div>
+            
+            <div class="form-group">
+                <label for="nama">Nama Barang *</label>
+                <input type="text" id="nama" name="nama" required placeholder="Dada Ayam Fillet">
+            </div>
+            
+            <div class="form-group">
+                <label for="kategori">Kategori</label>
+                <select id="kategori" name="kategori">
+                    <option value="Ayam Potong">Ayam Potong</option>
+                    <option value="Ayam Utuh">Ayam Utuh</option>
+                    <option value="Daging Olahan">Daging Olahan</option>
+                    <option value="Telur">Telur</option>
+                    <option value="Bumbu">Bumbu</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="stok">Stok Awal</label>
+                <input type="number" id="stok" name="stok" value="0" min="0">
+            </div>
+            
+            <div class="form-group">
+                <label for="harga">Harga (Rp)</label>
+                <input type="number" id="harga" name="harga" value="0" min="0">
+            </div>
+            
+            <div class="form-group">
+                <label for="satuan">Satuan</label>
+                <select id="satuan" name="satuan">
+                    <option value="kg">Kilogram (kg)</option>
+                    <option value="ekor">Ekor</option>
+                    <option value="pcs">Pieces (pcs)</option>
+                    <option value="pack">Pack</option>
+                </select>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Simpan Barang</button>
+                <a href="/barang" class="btn btn-secondary">Batal</a>
+            </div>
+        </form>
     </div>
-
-    <form method="POST" class="item-form">
-        <div class="form-group">
-            <label for="name">Nama Barang:</label>
-            <input type="text" id="name" name="name" required>
-        </div>
-
-        <div class="form-group">
-            <label for="category">Kategori:</label>
-            <select id="category" name="category" required>
-                <option value="">Pilih Kategori</option>
-                <option value="Ayam Potong">Ayam Potong</option>
-                <option value="Ayam Utuh">Ayam Utuh</option>
-                <option value="Daging Olahan">Daging Olahan</option>
-                <option value="Bumbu">Bumbu</option>
-                <option value="Lainnya">Lainnya</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="stock">Stok Awal:</label>
-            <input type="number" id="stock" name="stock" min="0" required>
-        </div>
-
-        <div class="form-group">
-            <label for="price">Harga (Rp):</label>
-            <input type="number" id="price" name="price" min="0" required>
-        </div>
-
-        <div class="form-actions">
-            <button type="submit" class="btn btn-primary">Simpan Barang</button>
-            <a href="{{ url_for('daftar_barang') }}" class="btn btn-secondary">Batal</a>
-        </div>
-    </form>
-</div>
-{% endblock %}
+    
+    <script>
+        // Format harga otomatis
+        document.getElementById('harga').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            e.target.value = value;
+        });
+    </script>
+</body>
+</html>

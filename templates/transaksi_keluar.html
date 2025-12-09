@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Stok Keluar - LINTANG CHICKEN{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <div class="form-header">
+        <h1>Transaksi Stok Keluar</h1>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">← Kembali</a>
+    </div>
+    
+    <div class="alert alert-info">
+        <i class="fas fa-info-circle"></i>
+        Fitur ini sedang dalam pengembangan. Akan segera hadir!
+    </div>
+    
+    <div class="coming-soon">
+        <div class="coming-soon-icon">
+            <i class="fas fa-tools fa-3x"></i>
+        </div>
+        <h3>Fitur Sedang Dibangun</h3>
+        <p>Halaman transaksi stok keluar akan segera tersedia.</p>
+        <a href="{{ url_for('daftar_barang') }}" class="btn btn-primary">
+            <i class="fas fa-box"></i> Lihat Daftar Barang
+        </a>
+    </div>
+</div>
+
+<style>
+.coming-soon {
+    text-align: center;
+    padding: 3rem 2rem;
+}
+
+.coming-soon-icon {
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    opacity: 0.7;
+}
+
+.coming-soon h3 {
+    color: var(--dark-color);
+    margin-bottom: 1rem;
+}
+
+.coming-soon p {
+    color: var(--gray-color);
+    margin-bottom: 2rem;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+</style>
+{% endblock %}
