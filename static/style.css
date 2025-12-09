@@ -1,0 +1,638 @@
+/* style.css dengan Animasi Ayam */
+
+/* Variabel Warna dan Font */
+:root {
+  --primary-color: #d84315;
+  --primary-light: #ff6b00;
+  --primary-dark: #bf360c;
+  --secondary-color: #ffecb3;
+  --accent-color: #4caf50;
+  --text-dark: #333;
+  --text-light: #666;
+  --bg-light: #f8f9fa;
+  --bg-white: #ffffff;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-hover: 0 8px 20px rgba(0, 0, 0, 0.15);
+  --border-radius: 12px;
+  --transition: all 0.3s ease;
+}
+
+/* Reset dan Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: var(--text-dark);
+  background: linear-gradient(135deg, #fff8f5 0%, #ffecb3 50%, #fff3e0 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Animasi Background Ayam */
+.chicken-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.1;
+}
+
+.chicken {
+  position: absolute;
+  font-size: 2rem;
+  animation: float 15s infinite linear;
+  opacity: 0.7;
+}
+
+.chicken:nth-child(1) {
+  top: 10%;
+  left: 5%;
+  animation-delay: 0s;
+  animation-duration: 20s;
+}
+
+.chicken:nth-child(2) {
+  top: 20%;
+  right: 10%;
+  animation-delay: 2s;
+  animation-duration: 18s;
+}
+
+.chicken:nth-child(3) {
+  top: 60%;
+  left: 15%;
+  animation-delay: 4s;
+  animation-duration: 22s;
+}
+
+.chicken:nth-child(4) {
+  top: 40%;
+  right: 5%;
+  animation-delay: 6s;
+  animation-duration: 16s;
+}
+
+.chicken:nth-child(5) {
+  top: 80%;
+  left: 20%;
+  animation-delay: 8s;
+  animation-duration: 19s;
+}
+
+.chicken:nth-child(6) {
+  top: 30%;
+  right: 20%;
+  animation-delay: 10s;
+  animation-duration: 21s;
+}
+
+.chicken-egg {
+  position: absolute;
+  font-size: 1.5rem;
+  animation: bounce 8s infinite ease-in-out;
+  opacity: 0.6;
+}
+
+.chicken-egg:nth-child(7) {
+  top: 15%;
+  left: 25%;
+  animation-delay: 1s;
+}
+
+.chicken-egg:nth-child(8) {
+  top: 45%;
+  right: 25%;
+  animation-delay: 3s;
+}
+
+.chicken-egg:nth-child(9) {
+  top: 75%;
+  left: 30%;
+  animation-delay: 5s;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-20px) rotate(5deg);
+  }
+  50% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  75% {
+    transform: translateY(20px) rotate(-5deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-15px) scale(1.1);
+  }
+}
+
+/* Feather Animation */
+.feather {
+  position: absolute;
+  font-size: 1.2rem;
+  animation: feather-fall 10s infinite linear;
+  opacity: 0.4;
+}
+
+.feather:nth-child(10) {
+  top: -10%;
+  left: 10%;
+  animation-delay: 0s;
+}
+
+.feather:nth-child(11) {
+  top: -10%;
+  left: 30%;
+  animation-delay: 2s;
+}
+
+.feather:nth-child(12) {
+  top: -10%;
+  left: 50%;
+  animation-delay: 4s;
+}
+
+.feather:nth-child(13) {
+  top: -10%;
+  left: 70%;
+  animation-delay: 6s;
+}
+
+.feather:nth-child(14) {
+  top: -10%;
+  left: 90%;
+  animation-delay: 8s;
+}
+
+@keyframes feather-fall {
+  0% {
+    transform: translateY(-100px) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.4;
+  }
+  90% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Navbar Styles */
+.navbar {
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+  color: white;
+  padding: 1rem 0;
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.nav-logo h2 {
+  font-weight: 700;
+  font-size: 1.8rem;
+  letter-spacing: 0.5px;
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: var(--transition);
+}
+
+.nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Main Content Area */
+.main-content {
+  flex: 1;
+  padding: 2rem 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* Login Page Styles */
+.login-body {
+  background: linear-gradient(135deg, #f3f3f3 0%, var(--primary-color) 50%, var(--bg-white) 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Form Container dengan Background Putih Semi-transparan */
+.form-container,
+.login-card,
+.table-container,
+.stat-card,
+.item-card,
+.feature-card,
+.product-card {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Header Styles */
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding: 2rem 0;
+  position: relative;
+}
+
+.header h1 {
+  color: var(--primary-color);
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  position: relative;
+  display: inline-block;
+}
+
+.header h1::after {
+  content: '🐔';
+  position: absolute;
+  right: -40px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2rem;
+  animation: peck 2s infinite;
+}
+
+@keyframes peck {
+  0%, 100% {
+    transform: translateY(-50%) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-50%) rotate(-15deg);
+  }
+}
+
+.header p {
+  color: var(--text-light);
+  font-size: 1.2rem;
+}
+
+/* Form Styles */
+.form-container {
+  border-radius: var(--border-radius);
+  padding: 2rem;
+  box-shadow: var(--shadow);
+  margin-bottom: 2rem;
+}
+
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.form-header h1 {
+  color: var(--primary-color);
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #ffccbc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: var(--transition);
+  background: var(--bg-white);
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--primary-light);
+  box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.1);
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+/* Dashboard Styles */
+.dashboard {
+  padding: 1rem 0;
+}
+
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  text-align: center;
+  box-shadow: var(--shadow);
+  border-left: 4px solid var(--primary-light);
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::before {
+  content: '🐣';
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.5rem;
+  opacity: 0.3;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
+}
+
+.stat-card h3 {
+  color: var(--text-light);
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.stat-number {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--primary-light);
+}
+
+/* Quick Actions */
+.quick-actions {
+  margin-bottom: 2rem;
+}
+
+.quick-actions h2 {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Items Grid */
+.items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.item-card {
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  border-left: 4px solid var(--primary-light);
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.item-card::before {
+  content: '🍗';
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.5rem;
+  opacity: 0.2;
+}
+
+.item-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
+}
+
+.item-card h3 {
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+
+.item-category {
+  color: var(--text-light);
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.item-stock {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.item-price {
+  color: var(--primary-light);
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.item-card .btn {
+  margin-top: auto;
+  align-self: flex-start;
+}
+
+/* Page Header */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.page-header h1 {
+  color: var(--primary-color);
+}
+
+/* Table Styles */
+.table-container {
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  margin-bottom: 2rem;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table th,
+.data-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.data-table th {
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.data-table tr:hover {
+  background-color: #fff3e0;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Button Styles */
+.btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.btn-primary {
+  background: var(--primary-light);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--primary-color);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(216, 67, 21, 0.3);
+}
+
+.btn-secondary {
+  background: #6c757d;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: #545b62;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(108, 117, 125, 0.3);
+}
+
+/* Footer */
+.footer {
+  background: var(--primary-color);
+  color: white;
+  text-align: center;
+  padding: 1.5rem 0;
+  margin-top: 3rem;
+  position: relative;
+  z-index: 1;
+}
+
+.footer p {
+  margin: 0.3rem 0;
+  font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .chicken {
+    font-size: 1.5rem;
+  }
+  
+  .chicken-egg {
+    font-size: 1.2rem;
+  }
+  
+  .header h1::after {
+    position: static;
+    display: block;
+    margin-top: 10px;
+    transform: none;
+    animation: none;
+  }
+  
+  /* ... rest of responsive styles ... */
+}
+
+/* Tambahkan ini ke base.html untuk menampilkan animasi ayam */

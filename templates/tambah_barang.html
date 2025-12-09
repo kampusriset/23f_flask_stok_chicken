@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Tambah Barang - LINTANG CHICKEN{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <div class="form-header">
+        <h1>Tambah Barang Baru</h1>
+        <a href="{{ url_for('daftar_barang') }}" class="btn btn-secondary">Kembali</a>
+    </div>
+
+    <form method="POST" class="item-form">
+        <div class="form-group">
+            <label for="name">Nama Barang:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+
+        <div class="form-group">
+            <label for="category">Kategori:</label>
+            <select id="category" name="category" required>
+                <option value="">Pilih Kategori</option>
+                <option value="Ayam Potong">Ayam Potong</option>
+                <option value="Ayam Utuh">Ayam Utuh</option>
+                <option value="Daging Olahan">Daging Olahan</option>
+                <option value="Bumbu">Bumbu</option>
+                <option value="Lainnya">Lainnya</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="stock">Stok Awal:</label>
+            <input type="number" id="stock" name="stock" min="0" required>
+        </div>
+
+        <div class="form-group">
+            <label for="price">Harga (Rp):</label>
+            <input type="number" id="price" name="price" min="0" required>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Simpan Barang</button>
+            <a href="{{ url_for('daftar_barang') }}" class="btn btn-secondary">Batal</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

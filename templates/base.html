@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}LINTANG CHICKEN - Sistem Stok Barang{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="chicken-background">
+        <div class="chicken">🐔</div>
+        <div class="chicken">🐓</div>
+        <div class="chicken">🐔</div>
+        <div class="chicken">🐓</div>
+        <div class="chicken">🐔</div>
+        <div class="chicken">🐓</div>
+        
+        <div class="chicken-egg">🥚</div>
+        <div class="chicken-egg">🥚</div>
+        <div class="chicken-egg">🥚</div>
+        
+        <div class="feather">💭</div>
+        <div class="feather">💭</div>
+        <div class="feather">💭</div>
+        <div class="feather">💭</div>
+        <div class="feather">💭</div>
+    </div>
+    
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>LINTANG CHICKEN</h2>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="{{ url_for('dashboard') }}" class="nav-link">Beranda</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url_for('daftar_barang') }}" class="nav-link">Daftar Barang</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url_for('tambah_barang') }}" class="nav-link">Tambah Barang</a>
+                </li>
+                {% if session.user %}
+                <li class="nav-item user-info">
+                    <span class="nav-user">Halo, {{ session.user.name }}</span>
+                    <a href="{{ url_for('logout') }}" class="nav-link logout-btn">Logout</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 LINTANG CHICKEN - Sistem Manajemen Stok Barang</p>
+            {% if session.user %}
+            <p>Login sebagai: {{ session.user.name }} ({{ session.user.role }})</p>
+            {% endif %}
+        </div>
+    </footer>
+</body>
+</html>

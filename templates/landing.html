@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}LINTANG CHICKEN - Ayam Berkualitas Premium{% endblock %}
+
+{% block content %}
+<div class="landing-hero">
+    <div class="hero-content">
+        <h1>Selamat Datang di <span class="brand-highlight">LINTANG CHICKEN</span></h1>
+        <p class="hero-subtitle">Penyedia Ayam Berkualitas Premium dengan Cita Rasa Terbaik</p>
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <h3>100%</h3>
+                <p>Ayam Segar</p>
+            </div>
+            <div class="hero-stat">
+                <h3>50+</h3>
+                <p>Produk Tersedia</p>
+            </div>
+            <div class="hero-stat">
+                <h3>24/7</h3>
+                <p>Layanan Pelanggan</p>
+            </div>
+        </div>
+        <div class="hero-actions">
+            <a href="{{ url_for('dashboard') }}" class="btn btn-primary btn-large">Mulai Kelola Stok</a>
+            <a href="{{ url_for('daftar_barang') }}" class="btn btn-secondary btn-large">Lihat Produk</a>
+        </div>
+    </div>
+    <div class="hero-image">
+        <div class="image-placeholder">
+            🍗
+        </div>
+    </div>
+</div>
+
+<div class="features-section">
+    <div class="container">
+        <h2>Mengapa Memilih LINTANG CHICKEN?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Kualitas Terbaik</h3>
+                <p>Ayam segar dengan standar kualitas tertinggi dan proses hygienis yang ketat</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🚚</div>
+                <h3>Pengiriman Cepat</h3>
+                <p>Pengiriman tepat waktu dengan sistem cold chain untuk menjaga kesegaran</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💰</div>
+                <h3>Harga Kompetitif</h3>
+                <p>Harga terbaik dengan kualitas premium yang tidak perlu diragukan lagi</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3>Management Modern</h3>
+                <p>Sistem manajemen stok digital untuk efisiensi dan akurasi yang lebih baik</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="products-preview">
+    <div class="container">
+        <h2>Produk Unggulan Kami</h2>
+        <div class="products-grid">
+            <div class="product-card">
+                <div class="product-image">🐔</div>
+                <h3>Ayam Potong Segar</h3>
+                <p>Daging ayam segar dengan berbagai pilihan potongan</p>
+                <span class="product-price">Rp 35.000 - 45.000</span>
+            </div>
+            <div class="product-card">
+                <div class="product-image">🍗</div>
+                <h3>Ayam Olahan</h3>
+                <p>Berbagai produk ayam olahan siap masak</p>
+                <span class="product-price">Rp 25.000 - 40.000</span>
+            </div>
+            <div class="product-card">
+                <div class="product-image">🥚</div>
+                <h3>Telur Ayam</h3>
+                <p>Telur ayam segar dengan kualitas terbaik</p>
+                <span class="product-price">Rp 28.000 - 35.000</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cta-section">
+    <div class="container">
+        <h2>Siap Mengelola Bisnis Ayam Anda?</h2>
+        <p>Mulai gunakan sistem manajemen stok LINTANG CHICKEN untuk efisiensi bisnis yang lebih baik</p>
+        <div class="cta-actions">
+            <a href="{{ url_for('dashboard') }}" class="btn btn-primary btn-large">Dashboard Management</a>
+            <a href="{{ url_for('tambah_barang') }}" class="btn btn-secondary btn-large">Tambah Produk Baru</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
